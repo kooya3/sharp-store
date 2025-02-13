@@ -1,9 +1,14 @@
-import React from 'react'
+function SearchPage ({
+    searchParams,
+}: {
+    searchParams: {
+        query: string;
+    };
+}) {
+    const { query } = searchParams;
 
-const SearchPage = () => {
-  return (
+    return 
     <div>SearchPage</div>
-  )
 }
 
 export default SearchPage
