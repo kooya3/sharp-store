@@ -1,4 +1,4 @@
-function SearchPage ({
+async function SearchPage ({
     searchParams,
 }: {
     searchParams: {

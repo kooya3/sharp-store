@@ -9,14 +9,14 @@ export function AnimatedLogo() {
       className="relative cursor-pointer group"
       whileHover={{ 
         scale: 1,
-        rotate: 0.5,
+        rotate: 0.35,
         y: -3
       }}
       transition={{ 
         type: "spring",
         stiffness: 500,
-        damping: 20,
-        mass: 2.5
+        damping: 18,
+        mass: 2.3
       }}
       initial={{ y: 0 }}
       whileInView={{
