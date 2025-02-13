@@ -54,6 +54,26 @@ export const productType = defineType({
       type: "number",
       validation: (Rule) => Rule.min(0),
     }),
+    // New field for size ranges
+    defineField({
+      name: "sizes",
+      title: "Available Sizes",
+      type: "array",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: "Small", value: "S" },
+          { title: "Medium", value: "M" },
+          { title: "Large", value: "L" },
+          { title: "XLarge", value: "XL" },
+          { title: "XXLarge", value: "XXL" },
+          { title: "Plus Sizes", value: "Plus" },
+          { title: "Special Order", value: "Special" },
+        ],
+        layout: "list", // Display as a list for better UX
+      },
+      validation: (Rule) => Rule.required().min(1), // At least one size must be selected
+    }),
   ],
   preview: {
     select: {
