@@ -1,9 +1,9 @@
 import React from 'react'
 
-const page = () => {
+const SearchPage = () => {
   return (
-    <div>page</div>
+    <div>SearchPage</div>
   )
 }
 
-export default page
+export default SearchPage
