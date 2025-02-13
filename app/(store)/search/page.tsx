@@ -5,10 +5,10 @@ async function SearchPage ({
         query: string;
     };
 }) {
-    const { query } = searchParams;
+    const { query } = await searchParams;
 
     return 
-    <div>SearchPage</div>
+    <div>SearchPage for {query}</div>
 }
 
 export default SearchPage
