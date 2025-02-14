@@ -24,23 +24,23 @@ export const productType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: "image",
-      title: "Product Image",
-      type: "image",
-      options: {
-        hotspot: true,
-      },
-    }),
+        name: "images",
+        title: "Product Images",
+        type: "array",
+        of: [
+          {
+            type: "image",
+            options: {
+              hotspot: true,
+            },
+          },
+        ],
+        validation: (Rule) => Rule.min(1).required(), // Require at least one image
+      }),
     defineField({
       name: "description",
       title: "Description",
       type: "blockContent",
-    }),
-    defineField({
-      name: "price",
-      title: "Price",
-      type: "number",
-      validation: (Rule) => Rule.required().min(0),
     }),
     defineField({
       name: "categories",
@@ -48,32 +48,50 @@ export const productType = defineType({
       type: "array",
       of: [{ type: "reference", to: { type: "category" } }],
     }),
-    defineField({
-      name: "stock",
-      title: "Stock",
-      type: "number",
-      validation: (Rule) => Rule.min(0),
-    }),
     // New field for size ranges
     defineField({
-      name: "sizes",
-      title: "Available Sizes",
-      type: "array",
-      of: [{ type: "string" }],
-      options: {
-        list: [
-          { title: "Small", value: "S" },
-          { title: "Medium", value: "M" },
-          { title: "Large", value: "L" },
-          { title: "XLarge", value: "XL" },
-          { title: "XXLarge", value: "XXL" },
-          { title: "Plus Sizes", value: "Plus" },
-          { title: "Special Order", value: "Special" },
+        name: "sizes",
+        title: "Available Sizes",
+        type: "array",
+        of: [
+          {
+            type: "object",
+            fields: [
+              defineField({
+                name: "size",
+                title: "Size",
+                type: "string",
+                options: {
+                  list: [
+                    { title: "Small", value: "S" },
+                    { title: "Medium", value: "M" },
+                    { title: "Large", value: "L" },
+                    { title: "XLarge", value: "XL" },
+                    { title: "XXLarge", value: "XXL" },
+                    { title: "Plus Sizes", value: "Plus" },
+                    { title: "Special Order", value: "Special" },
+                  ],
+                  layout: "dropdown", // Display as a dropdown for better UX
+                },
+                validation: (Rule) => Rule.required(),
+              }),
+              defineField({
+                name: "stock",
+                title: "Stock",
+                type: "number",
+                validation: (Rule) => Rule.min(0).required(),
+              }),
+              defineField({
+                name: "price",
+                title: "Price",
+                type: "number",
+                validation: (Rule) => Rule.min(0).required(),
+              }),
+            ],
+          },
         ],
-        layout: "list", // Display as a list for better UX
-      },
-      validation: (Rule) => Rule.required().min(1), // At least one size must be selected
-    }),
+        validation: (Rule) => Rule.required().min(1), // At least one size must be selected
+      }),
   ],
   preview: {
     select: {

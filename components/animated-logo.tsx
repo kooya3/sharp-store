@@ -9,8 +9,8 @@ export function AnimatedLogo() {
       className="relative cursor-pointer group"
       whileHover={{ 
         scale: 1,
-        rotate: 0.35,
-        y: -3
+        rotate: 0.15,
+        y: -1
       }}
       transition={{ 
         type: "spring",
