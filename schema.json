@@ -532,6 +532,43 @@
                 },
                 "optional": true
               },
+              "size": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "S"
+                    },
+                    {
+                      "type": "string",
+                      "value": "M"
+                    },
+                    {
+                      "type": "string",
+                      "value": "L"
+                    },
+                    {
+                      "type": "string",
+                      "value": "XL"
+                    },
+                    {
+                      "type": "string",
+                      "value": "XXL"
+                    },
+                    {
+                      "type": "string",
+                      "value": "Plus"
+                    },
+                    {
+                      "type": "string",
+                      "value": "Special"
+                    }
+                  ]
+                },
+                "optional": true
+              },
               "quantity": {
                 "type": "objectAttribute",
                 "value": {

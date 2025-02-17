@@ -21,17 +21,8 @@ export default function ProductDetails({
     (size) => size.size === selectedSize
   );
 
-  // Add type guard to ensure all required properties exist
-  const validSizeDetails = selectedSizeDetails && 
-    selectedSizeDetails.size && 
-    selectedSizeDetails.stock !== undefined && 
-    selectedSizeDetails.price !== undefined
-    ? {
-        size: selectedSizeDetails.size,
-        stock: selectedSizeDetails.stock,
-        price: selectedSizeDetails.price
-      }
-    : undefined;
+  // Check if the selected size is out of stock
+  const isSelectedSizeOutOfStock = selectedSizeDetails?.stock <= 0;
 
   return (
     <div className="flex flex-col justify-between">
@@ -41,7 +32,7 @@ export default function ProductDetails({
         {/* Conditionally render the price */}
         {selectedSizeDetails ? (
           <div className="text-xl font-semibold mb-4">
-            $ {(selectedSizeDetails.price ?? 0).toFixed(2)}
+            💲{(selectedSizeDetails.price ?? 0).toFixed(2)}
           </div>
         ) : (
           <div className="text-xl font-semibold mb-4 text-gray-500">
@@ -62,15 +53,17 @@ export default function ProductDetails({
             <div className="flex flex-wrap gap-2">
               {product.sizes.map((size, index) => (
                 <button
-                  key={`${size.size}-${index}`}
-                  onClick={() => size.size && setSelectedSize(size.size)}
+                  key={`${size.size}-${index}`} // Unique key
+                  onClick={() => setSelectedSize(size.size)}
                   className={`px-4 py-2 border rounded-lg text-sm font-medium transition-colors ${
                     selectedSize === size.size
                       ? "bg-blue-500 text-white border-blue-500"
                       : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
                   }`}
+                   disabled={size.stock <= 0} // Disable button if size is out of stock
                 >
-                  {size.size} ({size.stock ?? 0} in stock)
+                  {size.size}
+                   {/* ({size.stock ?? 0} in stock) */}
                 </button>
               ))}
             </div>
@@ -81,9 +74,9 @@ export default function ProductDetails({
       <div className="mt-6">
         <AddToBasketButton
           product={product}
-          disabled={isOutOfStock || !selectedSize}
+          disabled={isOutOfStock || !selectedSize || isSelectedSizeOutOfStock}
           selectedSize={selectedSize}
-          selectedSizeDetails={validSizeDetails}
+          selectedSizeDetails={selectedSizeDetails}
         />
       </div>
     </div>

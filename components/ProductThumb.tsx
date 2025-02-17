@@ -1,10 +1,13 @@
+"use client"; // Mark this as a Client Component
+
 import { imageUrl } from "@/lib/imageUrl";
 import { Product } from "@/sanity.types";
 import Image from "next/image";
 import Link from "next/link";
 
 function ProductThumb({ product }: { product: Product }) {
-  const isOutOfStock = product.stock != null && product.stock <= 0;
+  // Calculate if the product is out of stock (all sizes have stock <= 0)
+  const isOutOfStock = product.sizes?.every((size) => size.stock <= 0) ?? false;
 
   return (
     <Link
@@ -24,6 +27,7 @@ function ProductThumb({ product }: { product: Product }) {
           />
         )}
 
+        {/* Out of Stock Overlay */}
         {isOutOfStock && (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <span className="text-white font-bold text-lg">Out of Stock</span>
@@ -44,9 +48,6 @@ function ProductThumb({ product }: { product: Product }) {
                 : ""
             )
             .join(" ") || "No description available"}
-        </p>
-        <p className="mt-2 text-lg font-bold text-gray-900">
-          {/* $ {product.price?.toFixed(2)} */}
         </p>
       </div>
     </Link>

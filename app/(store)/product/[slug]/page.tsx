@@ -25,11 +25,13 @@ async function ProductPage({
     return notFound();
   }
 
-  const isOutOfStock = product.stock != null && product.stock <= 0;
+  // Calculate if the product is out of stock
+  const isOutOfStock =
+    product.sizes?.every((size) => size.stock <= 0) ?? false;
 
   // Ensure product.images is an array
-
   const images = product.images || [];
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
