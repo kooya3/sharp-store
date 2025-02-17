@@ -36,7 +36,7 @@ export function AnimatedLogo() {
           "relative z-10",
         )}
       >
-        Sharp Impressions 🛒
+        Sharp 🛒
         <span className="ml-2 inline-block transform -rotate-12 hover:rotate-0 transition-transform duration-300">
           
         </span>

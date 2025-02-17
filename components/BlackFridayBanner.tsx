@@ -9,23 +9,27 @@ async function BlackFridayBanner() {
   }
 
   return (
-    <div className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-400 text-white px-6 py-10 mx-4 mt-2 rounded-lg shadow-lg">
-      <div className="container mx-auto flex items-center justify-between">
-        <div className="flex-1">
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-left mb-4">
-            {sale.title}
-          </h2>
-          <p className="text-left text-xl sm:text-3xl font-semibold mb-6">
-            {sale.description}
-          </p>
+    <div className="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-400 text-white w-full px-4 py-6 sm:py-8 md:py-10">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          {/* Text Content */}
+          <div className="space-y-3 md:space-y-4">
+            <h2 className="text-2xl font-extrabold leading-tight sm:text-3xl md:text-4xl lg:text-5xl">
+              {sale.title}
+            </h2>
+            <p className="text-lg font-semibold sm:text-xl md:text-2xl lg:text-3xl">
+              {sale.description}
+            </p>
+          </div>
 
-          <div className="flex">
-            <div className="bg-white text-black py-4 px-6 rounded-full shadow-md transform hover:scale-105 transition duration-300">
-              <span className="font-bold text-base sm:text-xl">
+          {/* Coupon Code */}
+          <div className="flex-shrink-0">
+            <div className="bg-white text-black inline-flex w-full flex-col items-center justify-center rounded-full px-4 py-3 text-center shadow-md transition-transform hover:scale-105 hover:transform sm:w-auto sm:flex-row sm:px-6 sm:py-4">
+              <span className="text-sm font-bold sm:text-base lg:text-lg">
                 Use code:{" "}
                 <span className="text-red-600">{sale.couponCode}</span>
               </span>
-              <span className="ml-2 font-bold text-base sm:text-xl">
+              <span className="mt-1 text-sm font-bold sm:ml-2 sm:mt-0 sm:text-base lg:text-lg">
                 for {sale.discountAmount}% OFF
               </span>
             </div>
