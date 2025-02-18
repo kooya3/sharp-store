@@ -1,9 +1,10 @@
 "use client"
+import { createCheckoutSession, Metadata } from "@/actions/createCheckoutSession";
 import AddToBasketButton from "@/components/AddToBasketButton";
 import Loader from "@/components/Loader";
 import { imageUrl } from "@/lib/imageUrl";
 import useBasketStore from "@/store/store";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { SignInButton, useAuth, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -34,6 +35,31 @@ function BasketPage() {
             </div>
         )
     }
+
+
+    const handleCheckout = async() => {
+      if (!isSignedIn) return;
+      setIsLoading(true);
+
+      try {
+        const metadata: Metadata = {
+          orderNumber: crypto.randomUUID(),
+          customerName: user?.fullName ?? "Unknown",
+          customerEmail: user?.emailAddresses[0].emailAddress ?? "Unknown",
+          clerkUserId: user!.id,
+        };
+        
+        const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
+
+        if (checkoutUrl) {
+          window.location.href = checkoutUrl;
+        }
+      } catch (error) {
+        console.error("Error Creating Checkout Session:", error)
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
     return (
         <div className="container mx-auto p-4 max-w-6xl">
@@ -99,6 +125,53 @@ function BasketPage() {
                     </div>
                   );
                 })}
+              </div>
+              <div className="w-full lg:w-80 lg:sticky lg:top-4 h-fit bg-white p-6 border rounded order-first lg:order-last fixed bottom-0 left-0 lg:left-auto">
+                <h3 className="text-xl font-semibold">Order Summary</h3>
+                <div className="mt-4 space-y-2">
+                  <p className="flex justify-between">
+                    <span>Items:</span>
+                    <span>
+                      {groupedItems.reduce((total, item) => total + item.quantity, 0)}
+                    </span>
+                  </p>
+                  <p className="flex justify-between text-2xl font-bold border-t pt-2">
+                    <span>Total:</span>
+                    <span>
+                    💲{useBasketStore.getState().getTotalPrice().toFixed(2)}
+                    </span>
+                  </p>
+                </div>
+              </div>
+
+              {isSignedIn ? (
+                <button
+                  onClick={handleCheckout}
+                  disabled={isLoading}
+                  className="px-8 w-full py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 
+            text-white rounded-lg text-sm font-medium 
+            transition-all duration-200 hover:from-violet-700 hover:to-indigo-700 
+            hover:shadow-lg hover:-translate-y-0.5
+            disabled:from-gray-400 disabled:to-gray-500 disabled:hover:translate-y-0 
+            disabled:hover:shadow-none disabled:cursor-not-allowed"
+                >
+                  {isLoading ? "Processing..." : "Checkout"}
+                </button>
+              ) : (
+                <SignInButton mode="modal">
+                  <button
+                    className="px-8 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 
+              text-white rounded-lg text-sm font-medium 
+              transition-all duration-200 hover:from-violet-700 hover:to-indigo-700 
+              hover:shadow-lg hover:-translate-y-0.5"
+                  >
+                    Sign In to Checkout
+                  </button>
+                </SignInButton>
+              )}
+
+              <div className="h-64 lg:h-0">
+                {/* Spacer for fixed checkout on mobile */}
               </div>
             </div>
           )}

@@ -3,6 +3,9 @@ import "../globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/Header";
 import { SanityLive } from "@/sanity/lib/live";
+import { VisualEditing } from "next-sanity";
+import { draftMode } from "next/headers"; 
+import { DisableDraftMode } from "@/components/DisableDraftMode";
 
 
 export const metadata: Metadata = {
@@ -19,6 +22,16 @@ export default function RootLayout({
     <ClerkProvider>
     <html lang="en">
       <body>
+        {draftMode().then(async (mode) => {
+          if (mode.isEnabled) {
+            return (
+              <>
+                <DisableDraftMode />
+                <VisualEditing/>
+              </>
+            );
+          }
+        })}
         <main>
         <Header />
         {children}

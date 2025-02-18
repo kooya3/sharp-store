@@ -103,7 +103,6 @@ export type Order = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "product";
     };
-    size?: "S" | "M" | "L" | "XL" | "XXL" | "Plus" | "Special";
     quantity?: number;
     _key: string;
   }>;
@@ -115,7 +114,6 @@ export type Order = {
 };
 
 export type Product = {
-  price: number;
   _id: string;
   _type: "product";
   _createdAt: string;
@@ -368,7 +366,6 @@ export type MY_ORDERS_QUERYResult = Array<{
         _key: string;
       }>;
     } | null;
-    size?: "L" | "M" | "Plus" | "S" | "Special" | "XL" | "XXL";
     quantity?: number;
     _key: string;
   }> | null;
