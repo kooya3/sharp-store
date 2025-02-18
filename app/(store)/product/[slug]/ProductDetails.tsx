@@ -22,8 +22,8 @@ export default function ProductDetails({
   );
 
   // Check if the selected size is out of stock
-  const isSelectedSizeOutOfStock = selectedSizeDetails?.stock <= 0;
-
+  const isSelectedSizeOutOfStock = selectedSizeDetails?.stock ? selectedSizeDetails.stock <= 0 : false;
+ 
   return (
     <div className="flex flex-col justify-between">
       <div>
@@ -60,10 +60,9 @@ export default function ProductDetails({
                       ? "bg-blue-500 text-white border-blue-500"
                       : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
                   }`}
-                   disabled={size.stock <= 0} // Disable button if size is out of stock
+                  disabled={size.stock <= 0} // Disable button if size is out of stock
                 >
                   {size.size}
-                   {/* ({size.stock ?? 0} in stock) */}
                 </button>
               ))}
             </div>
@@ -76,7 +75,7 @@ export default function ProductDetails({
           product={product}
           disabled={isOutOfStock || !selectedSize || isSelectedSizeOutOfStock}
           selectedSize={selectedSize}
-          selectedSizeDetails={selectedSizeDetails}
+          selectedSizeDetails={selectedSizeDetails} // Pass selectedSizeDetails
         />
       </div>
     </div>

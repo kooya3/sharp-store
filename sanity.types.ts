@@ -115,6 +115,7 @@ export type Order = {
 };
 
 export type Product = {
+  price: number;
   _id: string;
   _type: "product";
   _createdAt: string;
@@ -142,7 +143,7 @@ export type Product = {
       _key: string;
     }>;
     style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-    listItem?: "bullet";
+    listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
       _type: "link";
@@ -204,7 +205,7 @@ export type BlockContent = Array<{
     _key: string;
   }>;
   style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
-  listItem?: "bullet";
+  listItem?: "bullet" | "number";
   markDefs?: Array<{
     href?: string;
     _type: "link";
@@ -331,7 +332,7 @@ export type MY_ORDERS_QUERYResult = Array<{
           _key: string;
         }>;
         style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-        listItem?: "bullet";
+        listItem?: "bullet" | "number";
         markDefs?: Array<{
           href?: string;
           _type: "link";
@@ -423,7 +424,7 @@ export type ALL_PRODUCTS_QUERYResult = Array<{
       _key: string;
     }>;
     style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-    listItem?: "bullet";
+    listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
       _type: "link";
@@ -491,7 +492,7 @@ export type PRODUCT_BY_ID_QUERYResult = {
       _key: string;
     }>;
     style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-    listItem?: "bullet";
+    listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
       _type: "link";
@@ -559,7 +560,7 @@ export type PRODUCTS_BY_CATEGORY_QUERYResult = Array<{
       _key: string;
     }>;
     style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-    listItem?: "bullet";
+    listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
       _type: "link";
@@ -627,7 +628,7 @@ export type PRODUCT_SEARCH_QUERYResult = Array<{
       _key: string;
     }>;
     style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
-    listItem?: "bullet";
+    listItem?: "bullet" | "number";
     markDefs?: Array<{
       href?: string;
       _type: "link";

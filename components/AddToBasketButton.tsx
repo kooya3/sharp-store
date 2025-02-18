@@ -15,20 +15,19 @@ function AddToBasketButton({
   product,
   disabled,
   selectedSize,
-  selectedSizeDetails, // Destructure selectedSizeDetails
+  selectedSizeDetails,
 }: AddToBasketButtonProps) {
   const { addItem, removeItem, getItemCount } = useBasketStore();
   const itemCount = getItemCount(product._id, selectedSize);
-
+  
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  if (!isClient) {
-    return null;
-  }
+  if (!isClient) return null;
+
 
   const handleAddItem = () => {
     if (!selectedSize || !selectedSizeDetails) {

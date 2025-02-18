@@ -5,7 +5,12 @@ import { persist } from "zustand/middleware";
 export interface BasketItem {
   product: Product;
   quantity: number;
-  size: string | null; // Add size to the BasketItem interface
+  size: string | null; // Size selected by the user
+  selectedSizeDetails?: {
+    size: string; // Ensure size is required
+    stock: number; // Ensure stock is required
+    price: number; // Ensure price is required
+  };
 }
 
 interface BasketState {
@@ -24,10 +29,17 @@ const useBasketStore = create<BasketState>()(
       items: [],
       addItem: (product, size) =>
         set((state) => {
+          const selectedSizeDetails = product.sizes?.find((s) => s.size === size);
+      
+          // Ensure selectedSizeDetails is defined and properly typed
+          if (!selectedSizeDetails || !selectedSizeDetails.size || !selectedSizeDetails.stock || !selectedSizeDetails.price) {
+            return state; // Return current state if required fields are missing
+          }
+      
           const existingItem = state.items.find(
-            (item) =>
-              item.product._id === product._id && item.size === size // Check both product ID and size
+            (item) => item.product._id === product._id && item.size === size
           );
+      
           if (existingItem) {
             return {
               items: state.items.map((item) =>
@@ -38,7 +50,19 @@ const useBasketStore = create<BasketState>()(
             };
           } else {
             return {
-              items: [...state.items, { product, quantity: 1, size }], // Include size in the new item
+              items: [
+                ...state.items,
+                {
+                  product,
+                  quantity: 1,
+                  size,
+                  selectedSizeDetails: {
+                    size: selectedSizeDetails.size, // Ensure size is a string
+                    stock: selectedSizeDetails.stock, // Ensure stock is a number
+                    price: selectedSizeDetails.price, // Ensure price is a number
+                  },
+                },
+              ],
             };
           }
         }),
@@ -58,7 +82,8 @@ const useBasketStore = create<BasketState>()(
       clearBasket: () => set({ items: [] }),
       getTotalPrice: () => {
         return get().items.reduce(
-          (total, item) => total + (item.product.price ?? 0) * item.quantity,
+          (total, item) =>
+            total + (item.selectedSizeDetails?.price ?? 0) * item.quantity,
           0
         );
       },
